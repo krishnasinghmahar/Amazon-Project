@@ -656,5 +656,25 @@ export const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "id1",
+    image: "images/products/backpack.jpg",
+    name: "Black Backpack",
+    rating: {
+      stars: 4.5,
+      count: 321
+    },
+    priceCents: "2400"
+  },
+  {
+    id: "id2",
+    image: "images/products/umbrella.jpg",
+    name: "Large Black Umbrella",
+    rating: {
+      stars: 5,
+      count: 444
+    },
+    priceCents: "1999"
   }
 ];

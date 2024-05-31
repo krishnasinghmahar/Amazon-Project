@@ -2,8 +2,9 @@ import { cart, removeFromCart, calculateCartQuantity, updateQuantity, updateDeli
 import { products, getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js";
+import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 
 export function renderOrderSummary() {
@@ -20,13 +21,9 @@ export function renderOrderSummary() {
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
 
-    const today = dayjs();
-    const deliveryDate = today.add(
-      deliveryOption.deliveryDays,
-      'days'
-    );
+   
 
-    const dateString = deliveryDate.format('dddd, MMMM D');
+    const dateString = calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
     <div class="cart-item-container 
@@ -49,7 +46,8 @@ export function renderOrderSummary() {
           <div class="product-quantity">
             <span>
               Quantity: <span class="quantity-label 
-              js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
+              js-quantity-label-${matchingProduct.id}">
+              ${cartItem.quantity}</span>
             </span>
             <span class="update-quantity-link link-primary 
             js-update-quantity-link"
@@ -93,13 +91,7 @@ export function renderOrderSummary() {
     let html = '';
 
     deliveryOptions.forEach((deliveryOption) => {
-
-      const today = dayjs();
-      const deliveryDate = today.add(
-        deliveryOption.deliveryDays,
-        'days'
-      );
-      const dateString = deliveryDate.format('dddd, MMMM D');
+      const dateString = calculateDeliveryDate(deliveryOption);
 
       const priceString = deliveryOption.priceCents === 0
         ? 'FREE'
@@ -138,6 +130,7 @@ export function renderOrderSummary() {
         const productId = link.dataset.productId;
         removeFromCart(productId);
 
+        renderCheckoutHeader();
         renderOrderSummary();
         updateCartQuantity();
         renderPaymentSummary();
@@ -205,6 +198,9 @@ export function renderOrderSummary() {
 
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML = quantity;
 
+    renderCheckoutHeader();
+    renderOrderSummary();
+    renderPaymentSummary();
     updateCartQuantity();
   }
 

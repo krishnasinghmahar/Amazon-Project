@@ -19,13 +19,13 @@ export function renderOrderSummary() {
 
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-    
+
     const today = dayjs();
     const deliveryDate = today.add(
       deliveryOption.deliveryDays,
       'days'
     );
-    
+
     const dateString = deliveryDate.format('dddd, MMMM D');
 
     cartSummaryHTML += `
@@ -137,9 +137,8 @@ export function renderOrderSummary() {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
         removeFromCart(productId);
-        
-        const container = document.querySelector(`.js-cart-container-${productId}`)
-        container.remove();
+
+        renderOrderSummary();
         updateCartQuantity();
         renderPaymentSummary();
       })

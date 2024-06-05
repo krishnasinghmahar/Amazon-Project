@@ -4,7 +4,14 @@ import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { loadProducts, loadProductsFetch } from "../data/products.js";
 
 async function loadPage() {
-  await loadProductsFetch();
+
+  try {
+    await loadProductsFetch();
+  } catch (error) {
+    console.log('Unexpected Error! Please Try Again Later.');
+  }
+
+  
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();

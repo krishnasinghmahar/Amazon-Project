@@ -1,1 +1,2 @@
-[live demo]([url](https://krishnasinghmahar.github.io/Amazon-Project/amazon.html))
+[live demo](https://krishnasinghmahar.github.io/Amazon-Project/amazon.html)
+
